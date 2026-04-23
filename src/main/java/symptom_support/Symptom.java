@@ -1,11 +1,8 @@
 package symptom_support;
 
-import java.util.Locale;
-import java.util.Objects;
 
 /**
- * Symptom represents..
- *
+ * add desc
  * **/
 public class Symptom
 {

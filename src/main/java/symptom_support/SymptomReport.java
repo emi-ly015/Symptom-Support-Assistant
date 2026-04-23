@@ -7,8 +7,6 @@ import java.util.List;
 
 /**
  * SymptomReport : represents one full user session and everything submitted into one report.
- *
- *
  * **/
 public class SymptomReport
 {
