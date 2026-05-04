@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * SymptomReport : represents one full user session and everything submitted into one report.
- * **/
+ * Represents one complete symptom report.
+ * The original symptoms are final while predictions and recommendations are added after processing.
+ */
 public class SymptomReport
 {
     private final String reportId;
@@ -22,11 +23,10 @@ public class SymptomReport
     public SymptomReport(String reportId, LocalDateTime createdAt, String userId,
                          List<Symptom> symptoms)
     {
-
-        if (reportId == null || reportId.isEmpty()) throw new IllegalArgumentException(
+        if (reportId == null || reportId.trim().isEmpty()) throw new IllegalArgumentException(
                 "Report ID cannot be null or empty.");
         if (createdAt == null) throw new IllegalArgumentException("Created time cannot be null.");
-        if (userId == null || userId.isEmpty()) throw new IllegalArgumentException(
+        if (userId == null || userId.trim().isEmpty()) throw new IllegalArgumentException(
                 "User ID cannot be null or empty.");
         if (symptoms == null) throw new IllegalArgumentException("Symptoms cannot be null.");
         if (symptoms.isEmpty()) throw new IllegalArgumentException("Symptoms cannot be empty.");
@@ -34,6 +34,7 @@ public class SymptomReport
         this.reportId = reportId;
         this.createdAt = createdAt;
         this.userId = userId;
+        // copy the symptom list to protect the report from outside changes
         this.symptoms = new ArrayList<>(symptoms);
         this.highRiskDetected = false;
         this.predictions = new ArrayList<>();

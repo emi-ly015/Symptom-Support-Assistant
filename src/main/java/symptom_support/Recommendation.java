@@ -3,7 +3,7 @@ package symptom_support;
 
 /**
  * recommendation : stores guidance such as self-care advice or escalation steps.
- * **/
+ **/
 public class Recommendation
 {
     private final String message;
@@ -13,11 +13,10 @@ public class Recommendation
     public Recommendation(String message, RecommendationType type,
                           UrgencyLevel urgencyLevel)
     {
-        if (message == null || message.isEmpty()) throw new IllegalArgumentException(
+        if (message == null || message.trim().isEmpty()) throw new IllegalArgumentException(
                 "Message cannot be null or empty.");
         if (type == null) throw new IllegalArgumentException("Recommendation type cannot be null");
         if (urgencyLevel == null) throw new IllegalArgumentException("Urgency level type cannot be null");
-
         this.message = message;
         this.type = type;
         this.urgencyLevel = urgencyLevel;

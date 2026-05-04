@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ConditionPrediction : represents a predicted condition with a confidence score.
- * Three likely conditions will be presented and each gets a score.
- * **/
+ * Represents one prediction result. The matched symptoms are stored so the user can see why a condition was ranked.
+ */
 public class ConditionPrediction
 {
     private final String conditionName;
@@ -17,17 +16,24 @@ public class ConditionPrediction
     public ConditionPrediction(String conditionName, double confidenceScore,
                                List<Symptom> matchedSymptoms, String explanation)
     {
-        if (conditionName == null || conditionName.isEmpty()) throw new IllegalArgumentException(
+        if (conditionName == null) throw new IllegalArgumentException(
                 "Condition cannot be null or empty.");
-        if (confidenceScore < 0.0 || confidenceScore > 1.0) throw new IllegalArgumentException(
-                "Confidence score must be between 0.0 and 1.0.");
+
+        String normalizedCondition = normalize(conditionName);
+
+        if (normalizedCondition.isEmpty()) throw new IllegalArgumentException(
+                "Condition cannot be null or empty.");
+        if (confidenceScore < 0.0 || confidenceScore > 1.0) throw new IllegalArgumentException
+                ("Confidence score must be between 0.0 and 1.0.");
         if (matchedSymptoms == null) throw new IllegalArgumentException(
                 "Matched symptoms cannot be null.");
-        if (explanation == null || explanation.isEmpty()) throw new IllegalArgumentException(
+        if (explanation == null || explanation.trim().isEmpty())
+            throw new IllegalArgumentException(
                 "Explanation cannot be null or empty.");
 
-        this.conditionName = normalize(conditionName);
+        this.conditionName =normalizedCondition;
         this.confidenceScore = confidenceScore;
+        // copy the list so outside code cannot change this prediction after creation
         this.matchedSymptoms = new ArrayList<>(matchedSymptoms);
         this.explanation = explanation;
     }

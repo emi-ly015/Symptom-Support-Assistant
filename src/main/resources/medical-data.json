@@ -1,0 +1,109 @@
+{
+  "cold": [
+    "cough",
+    "sore-throat",
+    "runny-nose",
+    "congestion",
+    "sneezing"
+  ],
+  "flu": [
+    "fever",
+    "cough",
+    "fatigue",
+    "chills",
+    "body-aches",
+    "headache"
+  ],
+  "migraine": [
+    "headache",
+    "nausea",
+    "light-sensitivity",
+    "sound-sensitivity",
+    "vision-changes"
+  ],
+  "dehydration": [
+    "dizziness",
+    "dry-mouth",
+    "fatigue",
+    "headache",
+    "dark-urine"
+  ],
+  "food-poisoning": [
+    "nausea",
+    "vomiting",
+    "diarrhea",
+    "stomach-pain",
+    "fever"
+  ],
+  "anxiety": [
+    "chest-tightness",
+    "rapid-heartbeat",
+    "shortness-of-breath",
+    "dizziness",
+    "sweating"
+  ],
+  "allergies": [
+    "sneezing",
+    "runny-nose",
+    "itchy-eyes",
+    "watery-eyes",
+    "congestion"
+  ],
+  "covid": [
+    "fever",
+    "cough",
+    "fatigue",
+    "loss-of-taste",
+    "loss-of-smell",
+    "shortness-of-breath"
+  ],
+  "bronchitis": [
+    "cough",
+    "mucus",
+    "fatigue",
+    "shortness-of-breath",
+    "chest-discomfort"
+  ],
+  "strep-throat": [
+    "sore-throat",
+    "fever",
+    "swollen-lymph-nodes",
+    "difficulty-swallowing",
+    "headache"
+  ],
+  "urinary-tract-infection": [
+    "burning-urination",
+    "frequent-urination",
+    "cloudy-urine",
+    "pelvic-pain",
+    "fever"
+  ],
+  "heat-exhaustion": [
+    "dizziness",
+    "fatigue",
+    "heavy-sweating",
+    "nausea",
+    "headache"
+  ],
+  "appendicitis": [
+    "abdominal-pain",
+    "nausea",
+    "vomiting",
+    "loss-of-appetite",
+    "fever"
+  ],
+  "hypertension": [
+    "headache",
+    "chest-pain",
+    "shortness-of-breath",
+    "vision-problems",
+    "fatigue"
+  ],
+  "asthma": [
+    "shortness-of-breath",
+    "wheezing",
+    "chest-tightness",
+    "cough",
+    "difficulty-breathing"
+  ]
+}
