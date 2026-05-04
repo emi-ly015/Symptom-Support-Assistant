@@ -1,97 +1,102 @@
-# Symptom Support Assistant (Java)
-
-> **Note:** This project is currently in progress as part of an applied Java programming course. The core architecture and models are implemented, with additional features under active development.
+# Symptom Support Assistant
 
 ## Overview
 
-This project is a healthcare-focused decision support application that allows users to input symptoms and receive structured guidance about possible conditions and next steps.
+Symptom Support Assistant is a console-based Java application that allows users to enter symptoms and receive structured guidance about possible conditions and next steps.
 
-The system is designed to help users make informed decisions by:
-- Organizing symptom data into structured reports
-- Analyzing symptoms to generate likely condition predictions
-- Providing recommendations such as self-care advice or when to seek medical attention
+The system is designed to:
+- Organize user symptoms into structured reports
+- Validate symptom data before processing
+- Predict up to three likely conditions using Java-based scoring logic
+- Generate recommendations and urgent warnings
+- Save completed reports as JSON files
+- Use a fake AI service to enhance explanations while keeping core logic deterministic
 
 ## Core Concepts
 
-Several key software engineering and Java programming concepts are explored throughout this project:
-
-- **Object-oriented design** with clearly defined domain models
-- **Encapsulation and immutability** for safe and predictable data handling
-- **Separation of concerns** between validation, prediction, persistence, and user interaction
-- **Input validation and exception handling** to ensure robust behavior
-- **Collections usage** (lists, sets) for managing symptom data and detecting duplicates
-- **Data normalization** for consistent processing and comparison of inputs
-- **File-based persistence (JSON)** for saving and retrieving symptom reports
-- **Testable architecture** where core logic can be verified independently of I/O or AI components
+- **Object-oriented design** using separate model, validation, engine, repository, and service classes
+- **Encapsulation** through private fields, constructors, getters, and controlled setters
+- **Interfaces and polymorphism** through the AIService interface and FakeAIService implementation
+- **Collections** including List, Map, Set, ArrayList, and HashSet
+- **Input validation and custom exceptions** for invalid symptoms, duplicate symptoms, and invalid reports
+- **Rule-based prediction logic** using symptom-to-condition mappings
+- **Risk assessment logic** for urgent symptom combinations
+- **JSON persistence** for external medical data and saved reports
+- **JUnit testing** for validation, prediction, recommendation, and persistence behavior
 
 ## System Architecture
 
 The application is structured around several core components:
 
-### Data Models
+- **Symptom** : Represents one symptom entered by the user. Each symptom has a normalized name, severity from 1–10, and duration in days.
 
-- **Symptom**  
-  Represents a single symptom with a name, severity (1–10), and duration.  
-  Input is normalized to ensure consistent comparisons.
+- **SymptomReport** : Represents one complete user session. It stores the submitted symptoms, generated predictions, recommendations, and whether high-risk symptoms were detected.
 
-- **SymptomReport**  
-  Represents a full user session containing multiple symptoms, along with generated predictions and recommendations.
+- **ConditionPrediction** : Represents one predicted condition, including a confidence score, matched symptoms, and explanation.
 
-- **ConditionPrediction**  
-  Represents a predicted condition with a confidence score and explanation.
+- **Recommendation** : Represents one guidance message. Each recommendation has a type and urgency level.
 
-- **Recommendation**  
-  Stores structured guidance such as self-care advice or escalation steps, categorized by type and urgency.
+- **User** : Stores user information and report history for the current console session.
 
-### Supporting Components
+- **InputValidator** : Validates symptom reports before prediction. It checks for empty reports, invalid symptoms, duplicate symptoms, invalid severity values, and invalid durations.
 
-- **InputValidator**  
-  Validates symptom reports before processing.  
-  Handles rules such as:
-    - Empty reports
-    - Duplicate symptoms
-    - Invalid or missing data
+- **Custom Exceptions** :The project uses custom exceptions such as:
+  - InvalidSymptomException
+  - InvalidSymptomReportException
+  - DuplicateSymptomException
 
-- **PredictionEngine** *(in progress)*  
-  Processes symptom reports and generates ranked condition predictions based on symptom patterns and severity.
+- **PredictionEngine** : Uses symptom-condition mappings to compare user symptoms against known condition patterns. It scores matches using symptom severity, calculates confidence scores, ranks predictions, and returns the top three results.
 
-- **RecommendationEngine** *(in progress)*  
-  Generates guidance based on predictions and detected risk levels.
+- **RiskAssessment** : Detects high-risk symptom combinations using deterministic Java rules. This class handles urgent safety logic such as chest pain with shortness of breath or high fever lasting multiple days.
 
-- **MedicalDataRepository** *(planned)*  
-  Loads symptom-condition mappings from structured data (JSON or similar).
+- **RecommendationEngine** : Combines urgent warnings from RiskAssessment with general recommendations based on predicted conditions.
 
-- **ReportRepository** *(planned)*  
-  Handles saving and retrieving reports using JSON-based file persistence.
+- **MedicalDataRepo** : Loads symptom-condition mappings from a JSON file. This keeps the condition data separate from prediction logic.
 
-- **AIService** *(planned)*  
-  Provides optional AI-assisted explanations or ranking refinement while keeping core logic deterministic and testable.
+- **ReportRepo** : Saves completed symptom reports to JSON files.
+
+- **AIService** : Defines the interface for AI-assisted explanation generation.
+
+- **FakeAIService** : Mimics AI-generated explanations without calling an external API.
+
+AI is used only to enhance explanation text for predictions. It does not control condition scoring, high-risk detection, urgent warnings, or final safety decisions. 
+
 
 ## Application Flow
 
-The system follows a structured pipeline:
+The console application follows this pipeline:
 
-1. User inputs symptoms
-2. Symptoms are normalized and validated
-3. A `SymptomReport` is created
-4. `InputValidator` verifies report correctness
-5. `PredictionEngine` generates likely conditions
-6. `RecommendationEngine` produces guidance and warnings
-7. Results are stored and optionally saved to JSON
-8. A summary report is displayed to the user
+1. User enters identifying information
+2. User enters symptoms, severity, and duration
+3. Symptoms are normalized and stored as Symptom objects
+4. A SymptomReport is created
+5. InputValidator validates the report
+6. MedicalDataRepo loads symptom-condition mappings from JSON
+7. PredictionEngine generates ranked condition predictions
+8. FakeAIService enhances prediction explanations
+9. RiskAssessment checks for urgent symptom combinations
+10. RecommendationEngine generates final recommendations
+11. SymptomReport stores predictions, recommendations, and high-risk status
+12. ReportRepo saves the completed report as JSON
+13. A summary is printed to the console
 
-## Technical Themes
+## External Libraries and Tools
 
-This project focuses on building a complete Java application rather than isolated features:
+This project uses:
+- **Jackson Databind** for reading and writing JSON
+- **Jackson Java Time Module** for supporting LocalDateTime serialization
+- **JUnit 5** for unit testing
+- **Maven** for dependency management and project structure
+- **SLF4J / Logback** included from the course project setup
 
-- Designing systems with multiple interacting classes
-- Maintaining clear boundaries between logic layers
-- Ensuring safe handling of invalid input and edge cases
-- Structuring code to remain maintainable as features are added
-- Building functionality that remains reliable even with optional AI components
+## Testing
 
-## Running the Project
+JUnit tests are included for core behavior, including:
+- Input validation
+- Duplicate symptom detection
+- Prediction ranking
+- Fake AI explanation integration
+- Urgent recommendation logic
+- JSON report saving
+- Basic Maven/JUnit sanity checking
 
-This project is currently under development and does not yet have a finalized runnable interface.
-
-Once completed, the application will be runnable as a console-based program with file-based persistence.
